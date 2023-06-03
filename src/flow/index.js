@@ -3,21 +3,24 @@ import ReactFlow, {
   ReactFlowProvider,
   Background,
   useReactFlow,
+  Controls,
 } from "reactflow";
-import { Box,Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text,Stack } from "@chakra-ui/react";
+import { Image } from "@chakra-ui/react";
+import rotapadgirl from "../assets/rotagal.png";
 
-import HeroRD from "../components/Hero";
-import ColorPickerRD from "../components/ColorPicker";
-import SliderRD from "../components/Slider";
-import SwitcherRD from "../components/Switcher";
-import SwoopyRD from "../components/Swoopy";
+import Hero from "../components/Hero";
+import ColorPicker from "../components/ColorPicker";
+import Slider from "../components/Slider";
+import Switcher from "../components/Switcher";
+import Swoopy from "../components/Swoopy";
 
 const nodeTypes = {
-  hero: HeroRD,
-  colorpicker: ColorPickerRD,
-  slider: SliderRD,
-  switcher: SwitcherRD,
-  swoopy: SwoopyRD,
+  hero: Hero,
+  colorpicker: ColorPicker,
+  slider: Slider,
+  switcher: Switcher,
+  swoopy: Swoopy,
 };
 
 const nodeStyle = {};
@@ -29,45 +32,48 @@ function getNodePositions(headlineBounds) {
   const rfHeight = window.innerHeight * 0.8;
   const rfWidth = window.innerWidth;
 
-  if (isMobileFlow) {
-    const offsetY =
-      headlineBounds.top +
-      headlineBounds.height +
-      (rfHeight - headlineBounds.height) / 2 -
-      125;
+  // if (isMobileFlow) {
+  //   const offsetY =
+  //     headlineBounds.top +
+  //     headlineBounds.height +
+  //     (rfHeight - headlineBounds.height) / 2 -
+  //     125;
 
-    return {
-      hero: { x: rfWidth - 150 - px, y: offsetY + 15 },
-      shape: { x: px + px / 4, y: offsetY + 15 },
-      color: { x: px / 2, y: offsetY + 90 },
-      zoom: { x: px, y: offsetY + 170 },
-      swoopy1: { x: 40, y: -40 },
-      swoopy2: { x: 160, y: 40 },
-    };
-  }
+  //   return {
+  //     hero: { x: rfWidth - 150 - px, y: offsetY + 15 },
+  //     shape: { x: px + px / 4, y: offsetY + 15 },
+  //     color: { x: px / 2, y: offsetY + 90 },
+  //     zoom: { x: px, y: offsetY + 170 },
+  //     swoopy1: { x: 40, y: -40 },
+  //     swoopy2: { x: 160, y: 40 },
+  //   };
+  // }
 
-  if (isLargeFlow) {
-    const offsetX = window.innerWidth / 2;
-    const offsetY = headlineBounds.top + 20;
+  // if (isLargeFlow) {
+  // const offsetX = window.innerWidth / 2;
+  // const offsetY = headlineBounds.top + 20;
 
-    return {
-      hero: { x: offsetX + 340, y: offsetY },
-      shape: { x: offsetX - 50, y: offsetY - 60 },
-      color: { x: offsetX - 150, y: offsetY + 80 },
-      zoom: { x: offsetX - 20, y: offsetY + 220 },
-      swoopy1: { x: 75, y: -35 },
-      swoopy2: { x: 160, y: 40 },
-    };
-  }
+  //   return {
+  //     hero: { x: offsetX + 340, y: offsetY },
+  //     shape: { x: offsetX - 50, y: offsetY - 60 },
+  //     color: { x: offsetX - 150, y: offsetY + 80 },
+  //     zoom: { x: offsetX - 20, y: offsetY + 220 },
+  //     swoopy1: { x: 75, y: -35 },
+  //     swoopy2: { x: 160, y: 40 },
+  //   };
+  // }
 
   const offsetX = headlineBounds.left + headlineBounds.width + px;
   const offsetY = rfHeight / 2 - 150;
 
+  // const offsetX = window.innerWidth / 2;
+  // const offsetY = headlineBounds.top + 20;
+
   return {
-    hero: { x: rfWidth - px - 180, y: offsetY + 20 },
-    shape: { x: offsetX, y: offsetY - 10 },
-    color: { x: offsetX, y: offsetY + 100 },
-    zoom: { x: offsetX, y: offsetY + 200 },
+    hero: { x: offsetX + 340, y: offsetY },
+    shape: { x: offsetX - 50, y: offsetY - 60 },
+    color: { x: offsetX - 150, y: offsetY + 80 },
+    zoom: { x: offsetX - 20, y: offsetY + 220 },
     swoopy1: { x: 75, y: -35 },
     swoopy2: { x: 160, y: 40 },
   };
@@ -119,6 +125,9 @@ function RotaPadFlows({ headlineRef }) {
   const [zoom, setZoom] = useState(12);
   const [shape, setShape] = useState("goods");
 
+  const proOptions = { hideAttribution: true };
+
+
   useEffect(() => {
     if (headlineRef.current && reactFlowRef.current) {
       const headlineBbox = headlineRef.current.getBoundingClientRect();
@@ -144,7 +153,7 @@ function RotaPadFlows({ headlineRef }) {
         id: "hero",
         type: "hero",
         position: nodePositions.hero,
-        style: { width: isLargeFlow ? 300 : 200, ...nodeStyle },
+        style: { width: 300, ...nodeStyle },
         data: { color, zoom, shape, label: "ROTAPAD" },
       },
       {
@@ -248,9 +257,12 @@ function RotaPadFlows({ headlineRef }) {
       defaultNodes={defaultNodes}
       defaultEdges={defaultEdges}
       ref={reactFlowRef}
+      proOptions={proOptions}
+      nodesDraggable={false}
       id="hero"
     >
       <Background />
+      <Controls/>
     </ReactFlow>
   );
 }
@@ -261,40 +273,38 @@ export default () => {
   return (
     <ReactFlowProvider>
       <Box
-        top={[0, 0, 0, 150]}
-        left={[0, 0, 0, "20px"]}
-        right={0}
-        bottom={0}
-        position="absolute"
-        maxWidth={100}
         className="headline"
         pointerEvents="none"
-        ref={headlineRef}
+        width="100%"
+        position="relative"
       >
         <Box
-          position="absolute"
-          top={[0, 0, 0, -140]}
-          left={[0, 0, 0, "20px"]}
-          right={0}
-          bottom={0}
+          ref={headlineRef}
+          pointerEvents="all"
+          // p={3}
+          pl={[3, 3, 3, 10, 10]}
+          maxWidth={550}
         >
-          {" "}
-          <Text color="#851de0" fontSize="18px" fontWeight="black">
-            ROTA
-            <span
-              style={{
-                backgroundColor: "#851de0",
-                padding: 3,
-                color: "white",
-                borderRadius: "5px",
-              }}
-            >
-              PAD
-            </span>
-          </Text>
+          <Box position="absolute" top="40px" px="20px">
+           <Stack>
+           <Heading color="purple.800" fontSize={{ base: '24px', md: '34px', lg: '40px' }} fontWeight="black">
+            Welcome to the RotaPad 
+            </Heading>
+            <Text color="gray.600" fontSize={{ base: '12px', md: '14px', lg: '14px' }} maxW={400}>
+            View team members' schedules at a glance, submit absence requests 
+            effortlessly, and receive instant notifications.
+             Simplify your workforce management with just a few taps.
+            </Text>
+           </Stack>
+          </Box>
+
+          <Box position="absolute" zIndex={99} right="5%" top={{base:"250px", lg:"200px"}}>
+            <Image boxSize="300px" objectFit="contain" src={rotapadgirl} />
+          </Box>
         </Box>
       </Box>
-     <RotaPadFlows headlineRef={headlineRef} />
+
+      <RotaPadFlows headlineRef={headlineRef} />
     </ReactFlowProvider>
   );
 };
