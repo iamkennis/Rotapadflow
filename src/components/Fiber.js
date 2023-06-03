@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useRef, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Tetrahedron, Box, MeshWobbleMaterial } from '@react-three/drei';
-import { Box as ChakraBox } from '@chakra-ui/react';
+import { Box as ChakraBox,Card, CardHeader, CardBody,SimpleGrid,Heading,Text} from '@chakra-ui/react';
 
 const isMobileFlow = typeof window !== 'undefined' && window.innerWidth < 992;
 
@@ -57,17 +57,21 @@ export default function FibApp({ color, zoom, shape, count = 150 }) {
   );
 
   return (
-    <ChakraBox height={isMobileFlow ? 130 : 180}>
-      <Canvas resize={canvasResize} dpr={2}>
-        <Cam zoom={zoom} />
-        <ambientLight intensity={0.5} />
-        <directionalLight intensity={1} position={[0, 25, 20]} />
-        <Suspense fallback={null}>
-          {randomData.map((props, i) => (
-            <Shape key={i} {...props} color={color} type={shape} />
-          ))}
-        </Suspense>
-      </Canvas>
+    <ChakraBox height="180">
+      <SimpleGrid spacingX='10px' spacingY='10px' columns={3}>
+  <Card width={20} height={20}>
+  </Card>
+  <Card width={20} height={20}>
+  </Card>
+  <Card width={20} height={20}>
+  </Card>
+  <Card width={20} height={20}>
+  </Card>
+  <Card width={20} height={20}>
+  </Card>
+  <Card width={20} height={20}>
+  </Card>
+</SimpleGrid>
     </ChakraBox>
   );
 }
