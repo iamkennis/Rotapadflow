@@ -290,7 +290,7 @@ export default () => {
            <Heading color="purple.800" fontSize={{ base: '34px', md: '34px', lg: '40px' }} fontWeight="black">
             About RotaPad 
             </Heading>
-            <Text color="gray.600" fontSize={{ base: '14px', md: '14px', lg: '14px' }} maxW={400}>
+            <Text color="gray.600" fontSize={{ base: '15px', md: '14px', lg: '14px' }} maxW={400}>
             We help teams view their members' schedules at a glance, submit absence requests 
             effortlessly, and receive instant notifications.
              Simplify your workforce management with just a few taps.
